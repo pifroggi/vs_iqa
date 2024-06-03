@@ -12,7 +12,7 @@ This uses [IQA-PyTorch](https://github.com/chaofengc/IQA-PyTorch/tree/main), whi
 
 ## Usage
 
-    import vs_iqa
+    from vs_iqa import vs_iqa
     clip = vs_iqa(clip, ref, metric='hyperiqa', fallback=HR, thresh=0.5, thresh_mode='lower', device='cpu', debug=False)
 
 __*clip*__  
