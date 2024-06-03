@@ -13,7 +13,7 @@ This uses [IQA-PyTorch](https://github.com/chaofengc/IQA-PyTorch/tree/main), whi
 ## Usage
 
     from vs_iqa import vs_iqa
-    clip = vs_iqa(clip, ref, metric='hyperiqa', fallback=HR, thresh=0.5, thresh_mode='lower', device='cpu', debug=False)
+    clip = vs_iqa(clip, ref, metric="hyperiqa", fallback, thresh=0.5, thresh_mode="lower", device="cpu", debug=False)
 
 __*clip*__  
 Clip to assess the quality of. Must be in RGBS format.
@@ -35,8 +35,8 @@ Score at which the current frame should be replaced with fallback. Different met
 Does nothing if fallback is not set.
 
 __*thresh_mode* (optional)__  
-lower = If the score is lower than tresh, frame will be replaced with fallback. (Bad quality frames will be replaced)  
-higher = If the score is higher than tresh, frame will be replaced with fallback. (Good quality frames will be replaced)  
+"lower" = If the score is lower than tresh, frame will be replaced with fallback. (Bad quality frames will be replaced)  
+"higher" = If the score is higher than tresh, frame will be replaced with fallback. (Good quality frames will be replaced)  
 Does nothing if fallback is not set.
 
 __*device* (optional)__  
