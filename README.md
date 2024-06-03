@@ -49,4 +49,4 @@ Overlays the score onto the frame.
 ## Tips
 If nothing seems to happen, the model is probably downloading. Some are multiple hundred mb.
 
-If you are getting weird error messages, check if your metric is intented to work with a reference clip or not.
+If you are getting weird error messages, check if your metric is intended to work with a reference clip or not.
