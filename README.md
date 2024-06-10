@@ -13,7 +13,7 @@ This uses [IQA-PyTorch](https://github.com/chaofengc/IQA-PyTorch/tree/main), whi
 ## Usage
 
     from vs_iqa import vs_iqa
-    clip = vs_iqa(clip, ref, metric="hyperiqa", fallback, thresh=0.5, thresh_mode="lower", device="cpu", debug=False)
+    clip = vs_iqa(clip, ref, metric="hyperiqa", fallback, thresh=0.5, thresh_mode="lower", device="cuda", debug=False)
 
 __*clip*__  
 Clip to assess the quality of. Must be in RGBS format.
@@ -40,12 +40,12 @@ __*thresh_mode* (optional)__
 Does nothing if fallback is not set.
 
 __*device* (optional)__  
-Possible values are 'cpu', or 'cuda' to use with an Nvidi GPU. Some metrics are already very fast on CPU, others benefit greatly from a GPU.
+Possible values are "cpu", or "cuda" to use with an Nvidia GPU. Some metrics are already very fast on CPU, others benefit greatly from a GPU.
 
 __*debug* (optional)__  
 Overlays the score onto the frame.
 
 ## Tips
-If nothing seems to happen, the model is probably downloading. Some are multiple hundred mb.
+Enums are at the top of the script if needed.
 
-If you are getting weird error messages, check if your metric is intended to work with a reference clip or not.
+If nothing seems to happen, the model is probably downloading. Some are multiple hundred mb.
