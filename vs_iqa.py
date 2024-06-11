@@ -114,7 +114,16 @@ def frame_to_tensor(frame: vs.VideoFrame, device: str) -> torch.Tensor:
     tensor.clamp_(0, 1)
     return tensor.permute(2, 0, 1).unsqueeze(0)
 
-def vs_iqa(clip, ref=None, metric='hyperiqa', fallback=None, thresh=0.5, thresh_mode='lower', device='cpu', debug=False):
+def vs_iqa(
+    clip: vs.VideoNode,
+    ref: Optional[vs.VideoNode] = None,
+    metric: Metric | str = Metric.HYPERIQA,
+    fallback: Optional[vs.VideoNode] = None,
+    thresh: float = 0.5,
+    thresh_mode: ThreshMode | str = ThreshMode.LOWER,
+    device: Device | str = Device.CPU,
+    debug: bool = False
+) -> vs.VideoNode:
 
     #check if enum, known string, or unknown string
     if isinstance(thresh_mode, ThreshMode):
