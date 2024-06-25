@@ -3,6 +3,7 @@ import numpy as np
 import torch
 from pyiqa import create_metric
 from enum import Enum
+from typing import Optional
 
 core = vs.core
 
