@@ -7,7 +7,7 @@ This uses [IQA-PyTorch](https://github.com/chaofengc/IQA-PyTorch/tree/main), whi
 
 ## Requirements
 * pip install numpy
-* pip install pyiqa
+* pip install pyiqa && pip install -U setuptools
 * [pytorch](https://pytorch.org/)
 
 ## Usage
