@@ -6,9 +6,9 @@ Optionally replaces frames if quality is too low.
 This uses [IQA-PyTorch](https://github.com/chaofengc/IQA-PyTorch/tree/main), which comes with a large variety of different quality assessment metrics.
 
 ## Requirements
-* pip install numpy
-* pip install pyiqa && pip install -U setuptools
 * [pytorch](https://pytorch.org/)
+* `pip install numpy`
+* `pip install pyiqa && pip install -U setuptools`
 
 ## Usage
 
@@ -45,7 +45,6 @@ Possible values are "cpu", or "cuda" to use with an Nvidia GPU. Some metrics are
 __*`debug`* (optional)__  
 Overlays the score onto the frame.
 
-## Tips
-Enums are at the top of the script if needed.
-
-If nothing seems to happen, the model is probably downloading. Some are multiple hundred mb.
+## Tips & Troubleshooting
+* Enums are at the top of the script if needed.
+* If nothing seems to happen, the model is probably downloading. Some are multiple hundred mb.
