@@ -19,16 +19,16 @@ __*`clip`*__
 Clip to assess the quality of. Must be in RGBS format.
 
 __*`ref`* (optional)__  
-Reference clip. If set, first clip will be compared against ref. If not set, first clip quality will be assessed blindly.  
+Reference clip. If set, clip will be compared against ref. If not set, clip quality will be assessed blindly.  
 A higher score means better match.  
-Must be in RGBS format and the same dimensions as first clip.
+Must be in same format and dimensions as clip.
 
 __*`metric`*__  
 The algorithm or AI model that computes the score.  
 Refer to [this table](https://github.com/chaofengc/IQA-PyTorch/blob/main/docs/ModelCard.md) for all available options and to see which metrics need a reference (FR) and which do not (NR). The Model names column would be the input here.
 
 __*`fallback`* (optional)__   
-Replacement clip if quality is too low. Must be in RGBS format and the same dimensions as first clip.
+Replacement clip if quality is too low/high. Must be same format and dimensions as clip.
 
 __*`thresh`* (optional)__  
 Score at which the current frame should be replaced with fallback. Different metrics can produce very different ranges. Use "debug=True" to get an idea.  
