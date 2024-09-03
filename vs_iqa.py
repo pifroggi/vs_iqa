@@ -107,10 +107,11 @@ class Metric(Enum):
                 return metric
         return None #if metric string not in enums
 
-def frame_to_tensor(frame: vs.VideoFrame, device: str) -> torch.Tensor:
-    array = np.empty((frame.height, frame.width, 3), dtype=np.float32)
+def frame_to_tensor(frame: vs.VideoFrame, device: str, fp16: bool = False) -> torch.Tensor:
+    dtype = np.float16 if fp16 else np.float32
+    array = np.empty((frame.height, frame.width, 3), dtype=dtype)
     for p in range(frame.format.num_planes):
-        array[..., p] = np.asarray(frame[p], dtype=np.float32)
+        array[..., p] = np.asarray(frame[p], dtype=dtype)
     tensor = torch.from_numpy(array).to(device)
     tensor.clamp_(0, 1)
     return tensor.permute(2, 0, 1).unsqueeze(0)
@@ -148,28 +149,32 @@ def vs_iqa(
         raise ValueError(f"Metric '{metric_name}' does not use a reference clip (NR).")
     if not ref and metric_mode == 'FR':
         raise ValueError(f"Metric '{metric_name}' needs a reference clip (FR).")
-    if clip.format.id != vs.RGBS:
-        raise ValueError("Clip must be in RGBS format.")
+    if clip.format.id not in [vs.RGBS, vs.RGBH]:
+        raise ValueError("Clip must be in RGBS or RGBH format.")
     if ref:
-        if ref.format.id != vs.RGBS:
-            raise ValueError("Reference clip must be in RGBS format.")
+        if ref.format.id != clip.format.id:
+            raise ValueError("Clip and reference clip must have the same format.")
         if clip.width != ref.width or clip.height != ref.height:
             raise ValueError("Clip and reference clip must have the same dimensions.")
     if fallback:
-        if fallback.format.id != vs.RGBS:
-            raise ValueError("Fallback must be in RGBS format.")
+        if fallback.format.id != clip.format.id:
+            raise ValueError("Clip and fallback clip must have the same format.")
     if thresh_mode not in ['higher', 'lower']:
         raise ValueError("thresh_mode must be either 'higher' or 'lower'.")
+    fp16 = clip.format.id == vs.RGBH and device == 'cuda'
 
     iqa_model = create_metric(metric_name, metric_mode=metric_mode, device=torch.device(device))
     lower_better_text = "lower is better" if iqa_model.lower_better else "higher is better"
 
+    if fp16:
+        iqa_model = iqa_model.half()
+
     def _evaluate_frame(n, f):
-        clip_tensor = frame_to_tensor(f, device)
+        clip_tensor = frame_to_tensor(f, device, fp16=fp16)
         
         if ref:
             ref_frame = ref.get_frame(n)
-            ref_tensor = frame_to_tensor(ref_frame, device)
+            ref_tensor = frame_to_tensor(ref_frame, device, fp16=fp16)
             score = iqa_model(clip_tensor, ref_tensor).cpu().item()
             text = f'({lower_better_text}) {metric_name} score: {score:.6f}\nreference: yes'
         else:
@@ -192,8 +197,11 @@ def vs_iqa(
         #overlay text on frame
         if debug:
             text = f'{text}\n{fallback_text}'
-            return core.text.Text(output_clip, text, alignment=9, scale=1)
-        else:
-            return output_clip
+            if fp16:
+                output_clip = core.resize.Point(output_clip, format=vs.RGBS)
+            output_clip = core.text.Text(output_clip, text, alignment=9, scale=1) #text overlay does not support RGBH
+            if fp16:
+                output_clip = core.resize.Point(output_clip, format=vs.RGBH)
 
+        return output_clip
     return core.std.FrameEval(clip, eval=_evaluate_frame, prop_src=[clip])
