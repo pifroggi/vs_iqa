@@ -149,6 +149,7 @@ def vs_iqa(
         raise ValueError(f"Metric '{metric_name}' does not use a reference clip (NR).")
     if not ref and metric_mode == 'FR':
         raise ValueError(f"Metric '{metric_name}' needs a reference clip (FR).")
+    
     if clip.format.id not in [vs.RGBS, vs.RGBH]:
         raise ValueError("Clip must be in RGBS or RGBH format.")
     if ref:
@@ -160,7 +161,10 @@ def vs_iqa(
         if fallback.format.id != clip.format.id:
             raise ValueError("Clip and fallback clip must have the same format.")
     if thresh_mode not in ['higher', 'lower']:
-        raise ValueError("thresh_mode must be either 'higher' or 'lower'.")
+        raise ValueError("Thresh_mode must be either 'higher' or 'lower'.")
+    
+    if clip.format.id == vs.RGBH and device == 'cpu':
+        raise ValueError("RGBH input is only for GPUs with fp16 support.")
     fp16 = clip.format.id == vs.RGBH and device == 'cuda'
 
     iqa_model = create_metric(metric_name, metric_mode=metric_mode, device=torch.device(device))
