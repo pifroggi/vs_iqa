@@ -41,7 +41,7 @@ Does nothing if fallback is not used.
 
 __*`device`* (optional)__  
 Possible values are "cpu", or "cuda" to use with an Nvidia GPU. Some metrics are already very fast on CPU, others benefit greatly from a GPU.
-RGBH format will additionally increase speed if the GPU supports fp16. (Not tested with all metrics, it is recommended to check scores against RGBS format for the chosen metric.)
+RGBH format will additionally increase speed and half vram usage if the GPU supports fp16. (Not tested with all metrics, it is recommended to check scores against RGBS format for the chosen metric.)
 
 __*`debug`* (optional)__  
 Overlays the score onto the frame.
