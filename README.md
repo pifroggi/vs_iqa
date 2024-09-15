@@ -10,6 +10,10 @@ This uses [IQA-PyTorch](https://github.com/chaofengc/IQA-PyTorch/tree/main), whi
 * `pip install numpy`
 * `pip install pyiqa && pip install -U setuptools`
 
+## Setup
+Put the `vs_iqa.py` file into your vapoursynth scripts folder.  
+Or install via pip: `pip install git+https://github.com/pifroggi/vs_iqa.git`
+
 ## Usage
 
     from vs_iqa import vs_iqa
