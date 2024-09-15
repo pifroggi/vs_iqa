@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vs_iqa"
+version = "1.0.0"
+description = "Image Quality Assessment (IQA) function for Vapoursynth."
+authors = [{ name = "pifroggi" }]
+license = { text = "MIT" }
+
+dependencies = [
+	"torch",
+    "pyiqa",
+    "numpy"
+]
+
+[project.urls]
+Home-page = "https://github.com/pifroggi/vs_iqa"
+Repository = "https://github.com/pifroggi/vs_iqa"
